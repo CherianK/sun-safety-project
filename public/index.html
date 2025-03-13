@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Sun Safety</title>
+  <style>
+    /* Temporary inline CSS. Later you can move to a separate .css file. */
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    header, section, footer { padding: 20px; }
+    .section-title { font-size: 1.2em; font-weight: bold; margin-top: 20px; }
+    .card { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+    button { padding: 8px 16px; cursor: pointer; }
+    input { padding: 6px; }
+    select { padding: 6px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Sun Safety Website</h1>
+    <p>Real-Time UV Index & Personalized Sun Protection</p>
+  </header>
+
+  <!-- Real-Time UV Index Section -->
+  <section>
+    <h2>Real-Time UV Index</h2>
+    <p>Enter suburb or postcode:</p>
+    <input type="text" id="locationInput" placeholder="e.g., Clayton">
+    <button id="btnGetUV">GET UV Index</button>
+    
+    <!-- Display the results -->
+    <div id="uvResult" class="card" style="display:none;">
+      <p id="uvInfo">Current UV Index: <span id="uvIndexValue">--</span></p>
+      <button id="btnMoreInfo">Learn More / Personalized Plan</button>
+    </div>
+  </section>
+
+  <!-- Clothing & Products Section -->
+  <section>
+    <h2>Suggested Clothing & Products</h2>
+    <button id="btnViewClothing">View Suggested Items</button>
+    <div id="clothingSection" class="card" style="display:none;">
+      <p>Here we will show recommended clothing based on UV level.</p>
+    </div>
+  </section>
+
+  <!-- Sunscreen Calculator Section -->
+  <section>
+    <h2>Sunscreen Calculator</h2>
+    <p>Choose your skin tone (1-6):</p>
+    <select id="skinToneSelect">
+      <option value="1">1 (Fair)</option>
+      <option value="2">2</option>
+      <option value="3">3 (Medium)</option>
+      <option value="4">4</option>
+      <option value="5">5 (Dark)</option>
+      <option value="6">6</option>
+    </select>
+    <button id="btnCalcSunscreen">Calculate Sunscreen Layers</button>
+    <div id="calcResult" class="card" style="display:none;">
+      <p>You should apply: <span id="spoonCount">0</span> spoon(s)</p>
+    </div>
+  </section>
+
+  <!-- Sunscreen Reminder Section -->
+  <section>
+    <h2>Set Sunscreen Reminder</h2>
+    <p>Choose reminder interval (in hours):</p>
+    <input type="number" id="reminderInterval" placeholder="e.g., 2">
+    <button id="btnSetReminder">Set Reminder</button>
+    <div id="reminderMessage" class="card" style="display:none;">
+      <p>Reminder set! We'll remind you every <span id="intervalValue"></span> hours.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Sun Safety Project</p>
+  </footer>
+
+<script src="script.js"></script>
+</body>
+</html>
+
