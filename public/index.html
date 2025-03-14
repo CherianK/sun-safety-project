@@ -1,82 +1,163 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Sun Safety</title>
-  <style>
-    /* Temporary inline CSS. Later you can move to a separate .css file. */
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    header, section, footer { padding: 20px; }
-    .section-title { font-size: 1.2em; font-weight: bold; margin-top: 20px; }
-    .card { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
-    button { padding: 8px 16px; cursor: pointer; }
-    input { padding: 6px; }
-    select { padding: 6px; }
-  </style>
+    <meta charset="UTF-8" />
+    <title>Sun Safety Calculator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .uv-display {
+            text-align: center;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .uv-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        .calculations-table, .recommendations-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4a90e2;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .section-title {
+            color: #333;
+            margin: 30px 0 15px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .clothing-recommendation {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .clothing-recommendation h3 {
+            color: #4a90e2;
+            margin-top: 0;
+        }
+
+        .clothing-recommendation ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .clothing-recommendation li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .clothing-recommendation li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #4a90e2;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Sun Safety Website</h1>
-    <p>Real-Time UV Index & Personalized Sun Protection</p>
-  </header>
+    <div class="container">
+        <header>
+            <h1>Sun Safety Calculator</h1>
+            <p>Real-time UV Index and Personalized Sun Protection Guide</p>
+        </header>
 
-  <!-- Real-Time UV Index Section -->
-  <section>
-    <h2>Real-Time UV Index</h2>
-    <p>Enter suburb or postcode:</p>
-    <input type="text" id="locationInput" placeholder="e.g., Clayton">
-    <button id="btnGetUV">GET UV Index</button>
-    
-    <!-- Display the results -->
-    <div id="uvResult" class="card" style="display:none;">
-      <p id="uvInfo">Current UV Index: <span id="uvIndexValue">--</span></p>
-      <button id="btnMoreInfo">Learn More / Personalized Plan</button>
+        <div class="uv-display">
+            <h2>Current UV Index</h2>
+            <div class="uv-number" id="currentUV">--</div>
+        </div>
+
+        <h2 class="section-title">Recommended Clothing</h2>
+        <div class="clothing-recommendation" id="clothingRecommendation">
+            <!-- Will be populated by JavaScript -->
+        </div>
+
+        <h2 class="section-title">Recommended Sunscreen Layers</h2>
+        <div class="card">
+            <table class="calculations-table" id="sunscreenTable">
+                <thead>
+                    <tr>
+                        <th>Skin Type</th>
+                        <th>Base Layer</th>
+                        <th>UV Adjustment</th>
+                        <th>Total Layers</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <h2 class="section-title">Sun Protection Recommendations</h2>
+        <div class="card">
+            <table class="recommendations-table" id="recommendationsTable">
+                <thead>
+                    <tr>
+                        <th>Skin Type</th>
+                        <th>Risk Assessment</th>
+                        <th>Recommendation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
     </div>
-  </section>
 
-  <!-- Clothing & Products Section -->
-  <section>
-    <h2>Suggested Clothing & Products</h2>
-    <button id="btnViewClothing">View Suggested Items</button>
-    <div id="clothingSection" class="card" style="display:none;">
-      <p>Here we will show recommended clothing based on UV level.</p>
-    </div>
-  </section>
-
-  <!-- Sunscreen Calculator Section -->
-  <section>
-    <h2>Sunscreen Calculator</h2>
-    <p>Choose your skin tone (1-6):</p>
-    <select id="skinToneSelect">
-      <option value="1">1 (Fair)</option>
-      <option value="2">2</option>
-      <option value="3">3 (Medium)</option>
-      <option value="4">4</option>
-      <option value="5">5 (Dark)</option>
-      <option value="6">6</option>
-    </select>
-    <button id="btnCalcSunscreen">Calculate Sunscreen Layers</button>
-    <div id="calcResult" class="card" style="display:none;">
-      <p>You should apply: <span id="spoonCount">0</span> spoon(s)</p>
-    </div>
-  </section>
-
-  <!-- Sunscreen Reminder Section -->
-  <section>
-    <h2>Set Sunscreen Reminder</h2>
-    <p>Choose reminder interval (in hours):</p>
-    <input type="number" id="reminderInterval" placeholder="e.g., 2">
-    <button id="btnSetReminder">Set Reminder</button>
-    <div id="reminderMessage" class="card" style="display:none;">
-      <p>Reminder set! We'll remind you every <span id="intervalValue"></span> hours.</p>
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2025 Sun Safety Project</p>
-  </footer>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
 
