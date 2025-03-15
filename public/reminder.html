@@ -155,14 +155,14 @@
                 <div class="input-group">
                     <input type="number" 
                            id="intervalInput" 
-                           min="10" 
+                           min="1" 
                            max="120" 
-                           step="10" 
+                           step="1" 
                            placeholder="Minutes"
                            value="30"/>
                     <button id="setReminderBtn">Set Reminder</button>
                 </div>
-                <p class="input-help">Choose between 10 minutes to 2 hours (in 10-minute increments)</p>
+                <p class="input-help">Choose any number of minutes between 1 and 120</p>
             </div>
 
             <div id="timerDisplay" class="timer-display">
@@ -183,5 +183,7 @@
     </div>
 
     <script src="reminder.js"></script>
+    <link rel="stylesheet" href="shared-timer.css">
+    <script src="shared-timer.js"></script>
 </body>
 </html> 

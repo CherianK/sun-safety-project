@@ -1,14 +1,3 @@
-// Store reminder data in localStorage
-function storeReminderData(data) {
-    localStorage.setItem('reminderData', JSON.stringify(data));
-}
-
-// Get reminder data from localStorage
-function getReminderData() {
-    const data = localStorage.getItem('reminderData');
-    return data ? JSON.parse(data) : null;
-}
-
 // Format time remaining in HH:MM:SS format
 function formatTimeRemaining(milliseconds) {
     const totalSeconds = Math.floor(milliseconds / 1000);
@@ -17,16 +6,6 @@ function formatTimeRemaining(milliseconds) {
     const seconds = totalSeconds % 60;
 
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-}
-
-// Validate minutes input
-function validateMinutes(minutes) {
-    // Check if it's a number between 1 and 120
-    if (isNaN(minutes) || minutes < 1 || minutes > 120) {
-        return false;
-    }
-    // Check if it's a whole number
-    return Number.isInteger(minutes);
 }
 
 // Show reminder alert
@@ -48,33 +27,76 @@ function showAlert() {
     }, 5000);
 }
 
-// Main reminder functionality
-document.addEventListener('DOMContentLoaded', () => {
-    const intervalInput = document.getElementById('intervalInput');
-    const setReminderBtn = document.getElementById('setReminderBtn');
-    const timerDisplay = document.getElementById('timerDisplay');
+// Initialize global timer
+function initializeGlobalTimer() {
+    // Create timer element if it doesn't exist
+    if (!document.getElementById('globalTimer')) {
+        const timerHtml = `
+            <div id="globalTimer" class="global-timer">
+                <h3>Sunscreen Timer</h3>
+                <div class="time" id="globalTimeRemaining">--:--:--</div>
+                <p class="message">Until next application</p>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', timerHtml);
+    }
+
+    // Create alert element if it doesn't exist
+    if (!document.getElementById('reminderAlert')) {
+        const alertHtml = `
+            <div id="reminderAlert" class="alert">
+                Time to reapply your sunscreen!
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', alertHtml);
+    }
+
+    const globalTimer = document.getElementById('globalTimer');
+    const globalTimeRemaining = document.getElementById('globalTimeRemaining');
     
-    setReminderBtn.addEventListener('click', () => {
-        const minutes = parseInt(intervalInput.value);
+    // Check for existing reminder
+    const existingReminder = localStorage.getItem('reminderData');
+    if (existingReminder) {
+        const reminderData = JSON.parse(existingReminder);
+        const now = new Date().getTime();
         
-        if (isNaN(minutes) || minutes < 1 || minutes > 120) {
-            alert('Please enter a valid number of minutes (1-120)');
-            return;
+        if (now < reminderData.endTime) {
+            // Resume existing timer
+            startGlobalTimer(reminderData.endTime - now);
+            globalTimer.classList.add('show');
+        } else {
+            // Clear expired reminder
+            localStorage.removeItem('reminderData');
         }
+    }
+}
 
-        // Calculate end time
-        const duration = minutes * 60 * 1000; // Convert minutes to milliseconds
-        const endTime = new Date().getTime() + duration;
+// Start global timer
+function startGlobalTimer(duration) {
+    const globalTimer = document.getElementById('globalTimer');
+    const globalTimeRemaining = document.getElementById('globalTimeRemaining');
+    let timeLeft = duration;
 
-        // Store reminder data
-        storeReminderData({
-            startTime: new Date().getTime(),
-            duration: duration,
-            endTime: endTime
-        });
+    // Update immediately
+    globalTimeRemaining.textContent = formatTimeRemaining(timeLeft);
+    globalTimer.classList.add('show');
 
-        // Start global timer
-        startGlobalTimer(duration);
-        timerDisplay.classList.add('show');
-    });
-}); 
+    const countdownInterval = setInterval(() => {
+        timeLeft -= 1000;
+
+        if (timeLeft <= 0) {
+            clearInterval(countdownInterval);
+            globalTimeRemaining.textContent = '00:00:00';
+            showAlert();
+            globalTimer.classList.remove('show');
+            localStorage.removeItem('reminderData');
+        } else {
+            globalTimeRemaining.textContent = formatTimeRemaining(timeLeft);
+        }
+    }, 1000);
+
+    return countdownInterval;
+}
+
+// Initialize timer on page load
+document.addEventListener('DOMContentLoaded', initializeGlobalTimer); 
