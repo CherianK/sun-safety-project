@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Sunscreen Reminder</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FFB6C1, #FF69B4);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .reminder-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="number"] {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            width: 100px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #ff69b4;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #ff1493;
+        }
+
+        .timer-display {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .timer-display.show {
+            display: block;
+        }
+
+        .time-remaining {
+            font-size: 2em;
+            color: #ff69b4;
+            margin: 20px 0;
+        }
+
+        .navigation-bar {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .navigation-bar button {
+            background-color: #4a90e2;
+        }
+
+        .navigation-bar button:hover {
+            background-color: #357abd;
+        }
+
+        .alert {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ff69b4;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                top: -100px;
+                opacity: 0;
+            }
+            to {
+                top: 20px;
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sunscreen Reminder</h1>
+        </header>
+
+        <div class="reminder-box">
+            <div class="input-section">
+                <h2>Set Your Reminder Interval</h2>
+                <div class="input-group">
+                    <input type="number" 
+                           id="intervalInput" 
+                           min="10" 
+                           max="120" 
+                           step="10" 
+                           placeholder="Minutes"
+                           value="30"/>
+                    <button id="setReminderBtn">Set Reminder</button>
+                </div>
+                <p class="input-help">Choose between 10 minutes to 2 hours (in 10-minute increments)</p>
+            </div>
+
+            <div id="timerDisplay" class="timer-display">
+                <h3>Next Application Due In:</h3>
+                <div class="time-remaining" id="timeRemaining">--:--:--</div>
+                <p>Don't forget to reapply your sunscreen when the timer ends!</p>
+            </div>
+
+            <div class="navigation-bar">
+                <button onclick="window.location.href='landing.html'">Back to Home</button>
+                <button onclick="window.location.href='index.html'">View Sun Safety Guide</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="reminderAlert" class="alert">
+        Time to reapply your sunscreen!
+    </div>
+
+    <script src="reminder.js"></script>
+</body>
+</html> 
