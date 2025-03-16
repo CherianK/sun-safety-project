@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>Sun Safety Calculator</title>
+    <title>Sun Safety Recommendations</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -34,31 +34,6 @@
             font-size: 48px;
             font-weight: bold;
             color: #ff6b6b;
-        }
-
-        .calculations-table, .recommendations-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: #fff;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #4a90e2;
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f8f9fa;
         }
 
         .section-title {
@@ -105,41 +80,36 @@
             color: #4a90e2;
         }
 
-        .calculations-table td.total-layers {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #ff69b4;
-        }
-
-        .calculations-table td.minor-info {
-            font-size: 0.9em;
-            color: #666;
-        }
-
-        .reminder-setup {
+        .recommendations-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
             background: #fff;
-            padding: 20px;
             border-radius: 10px;
-            margin-top: 20px;
+            overflow: hidden;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        .reminder-setup h2 {
-            color: #4a90e2;
-            margin-top: 0;
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
         }
 
-        .input-group {
+        th {
+            background-color: #4a90e2;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .navigation-buttons {
+            margin-top: 20px;
             display: flex;
             gap: 10px;
-            margin: 15px 0;
-        }
-
-        input[type="number"] {
-            padding: 8px 12px;
-            border: 2px solid #ddd;
-            border-radius: 4px;
-            width: 100px;
+            justify-content: center;
         }
 
         button {
@@ -159,8 +129,8 @@
 <body>
     <div class="container">
         <header>
-            <h1>Sun Safety Calculator</h1>
-            <p>Real-time UV Index and Personalized Sun Protection Guide</p>
+            <h1>Detailed Sun Safety Recommendations</h1>
+            <p>Comprehensive guide for sun protection based on UV index</p>
         </header>
 
         <div class="uv-display">
@@ -168,14 +138,19 @@
             <div class="uv-number" id="currentUV">--</div>
         </div>
 
-        <h2 class="section-title">Recommended Sunscreen Layers</h2>
+        <h2 class="section-title">Recommended Clothing</h2>
+        <div class="clothing-recommendation" id="clothingRecommendation">
+            <!-- Will be populated by JavaScript -->
+        </div>
+
+        <h2 class="section-title">Sun Protection Recommendations</h2>
         <div class="card">
-            <table class="calculations-table" id="sunscreenTable">
+            <table class="recommendations-table" id="recommendationsTable">
                 <thead>
                     <tr>
                         <th>Skin Type</th>
-                        <th>Total Layers</th>
-                        <th>Details</th>
+                        <th>Risk Assessment</th>
+                        <th>Recommendation</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -184,36 +159,14 @@
             </table>
         </div>
 
-        <div class="reminder-setup">
-            <h2>Set Sunscreen Reminder</h2>
-            <div class="input-group">
-                <input type="number" 
-                       id="intervalInput" 
-                       min="1" 
-                       max="120" 
-                       step="1" 
-                       placeholder="Minutes"
-                       value="30"/>
-                <button id="setReminderBtn">Set Reminder</button>
-            </div>
-            <p class="input-help">Choose any number of minutes between 1 and 120</p>
-            <div id="timerDisplay" class="timer-display">
-                <h3>Next Application Due In:</h3>
-                <div class="time-remaining" id="timeRemaining">--:--:--</div>
-                <p>Don't forget to reapply your sunscreen when the timer ends!</p>
-            </div>
-        </div>
-
         <div class="navigation-buttons">
             <button onclick="window.location.href='index.html'">Back to Home</button>
-            <button onclick="window.location.href='recommendations.html'">View Detailed Recommendations</button>
+            <button onclick="window.location.href='calculator.html'">Back to Calculator</button>
         </div>
     </div>
 
     <script src="script.js"></script>
-    <script src="reminder.js"></script>
     <link rel="stylesheet" href="shared-timer.css">
     <script src="shared-timer.js"></script>
 </body>
-</html>
-
+</html> 

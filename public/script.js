@@ -194,23 +194,14 @@ function updateClothingRecommendations(uvIndex) {
         .join('');
     
     clothingDiv.innerHTML = `
-        <h3>UV Index ${uvIndex} (${level})</h3>
-        <ul>${recommendationsList}</ul>
+        <h3>UV Level: ${level}</h3>
+        <ul>
+            ${recommendationsList}
+        </ul>
     `;
 }
 
 function updateTables(uvIndex) {
-    // Update Clothing Recommendations
-    const clothingRecommendationDiv = document.getElementById('clothingRecommendation');
-    const clothingRec = getClothingRecommendation(uvIndex);
-    
-    clothingRecommendationDiv.innerHTML = `
-        <h3>UV Level: ${clothingRec.level}</h3>
-        <ul>
-            ${clothingRec.recommendations.map(rec => `<li>${rec}</li>`).join('')}
-        </ul>
-    `;
-
     // Update Sunscreen Calculations Table
     const sunscreenTableBody = document.querySelector('#sunscreenTable tbody');
     sunscreenTableBody.innerHTML = '';
@@ -223,9 +214,8 @@ function updateTables(uvIndex) {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${SKIN_TYPES[skinType]}</td>
-            <td>${baseLayers}</td>
-            <td>${uvAdjustment}</td>
-            <td>${totalLayers}</td>
+            <td class="total-layers">${totalLayers}</td>
+            <td class="minor-info">Base: ${baseLayers}, UV Adjustment: +${uvAdjustment}</td>
         `;
         sunscreenTableBody.appendChild(row);
     }
@@ -250,8 +240,38 @@ function updateTables(uvIndex) {
 function generateRandomUV() {
     const uvIndex = Math.floor(Math.random() * 16); // 0 to 15
     document.getElementById('currentUV').textContent = uvIndex;
-    updateClothingRecommendations(uvIndex);
-    updateTables(uvIndex);
+    
+    // Update tables based on which page we're on
+    if (document.getElementById('sunscreenTable')) {
+        updateTables(uvIndex);
+    }
+    
+    // Update recommendations if we're on the recommendations page
+    if (document.getElementById('clothingRecommendation')) {
+        const clothingRec = getClothingRecommendation(uvIndex);
+        const clothingDiv = document.getElementById('clothingRecommendation');
+        clothingDiv.innerHTML = `
+            <h3>UV Level: ${clothingRec.level}</h3>
+            <ul>
+                ${clothingRec.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+            </ul>
+        `;
+
+        // Update recommendations table
+        const recommendationsTableBody = document.querySelector('#recommendationsTable tbody');
+        recommendationsTableBody.innerHTML = '';
+
+        for (let skinType = 1; skinType <= 6; skinType++) {
+            const { risk, recommendation } = getRiskAndRecommendation(uvIndex, skinType);
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${SKIN_TYPES[skinType]}</td>
+                <td>${risk}</td>
+                <td>${recommendation}</td>
+            `;
+            recommendationsTableBody.appendChild(row);
+        }
+    }
 }
 
 // Initial load - generate UV index once
