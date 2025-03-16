@@ -200,6 +200,17 @@ function updateClothingRecommendations(uvIndex) {
 }
 
 function updateTables(uvIndex) {
+    // Update Clothing Recommendations
+    const clothingRecommendationDiv = document.getElementById('clothingRecommendation');
+    const clothingRec = getClothingRecommendation(uvIndex);
+    
+    clothingRecommendationDiv.innerHTML = `
+        <h3>UV Level: ${clothingRec.level}</h3>
+        <ul>
+            ${clothingRec.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+        </ul>
+    `;
+
     // Update Sunscreen Calculations Table
     const sunscreenTableBody = document.querySelector('#sunscreenTable tbody');
     sunscreenTableBody.innerHTML = '';

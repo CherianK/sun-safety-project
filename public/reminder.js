@@ -62,6 +62,16 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Clear any existing reminder
+        const existingReminder = getReminderData();
+        if (existingReminder) {
+            localStorage.removeItem('reminderData');
+            const globalTimer = document.getElementById('globalTimer');
+            if (globalTimer) {
+                globalTimer.classList.remove('show');
+            }
+        }
+
         // Calculate end time
         const duration = minutes * 60 * 1000; // Convert minutes to milliseconds
         const endTime = new Date().getTime() + duration;
