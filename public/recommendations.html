@@ -3,170 +3,151 @@
 <head>
     <meta charset="UTF-8" />
     <title>Sun Safety Recommendations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #ffd93d;
+            --accent: #4ecdc4;
+            --background: #f8f9fa;
+            --text: #2d3748;
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f6f9fc, #eef2f7);
+            color: var(--text);
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
         }
 
         header {
             text-align: center;
+            margin-bottom: 60px;
+            padding: 60px 40px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 3.2em;
+            margin: 0 0 20px 0;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            font-size: 1.3em;
+            margin: 0;
+            color: var(--text);
+            opacity: 0.9;
+        }
+
+        .recommendations-list {
+            margin-top: 40px;
+        }
+
+        .recommendation-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
             margin-bottom: 30px;
         }
 
-        .uv-display {
-            text-align: center;
-            padding: 20px;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
+        .recommendation-card h2 {
+            color: var(--text);
+            margin: 0 0 20px;
+            font-weight: 600;
         }
 
-        .uv-number {
-            font-size: 48px;
-            font-weight: bold;
-            color: #ff6b6b;
-        }
-
-        .section-title {
-            color: #333;
-            margin: 30px 0 15px;
-        }
-
-        .card {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-
-        .clothing-recommendation {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .clothing-recommendation h3 {
-            color: #4a90e2;
-            margin-top: 0;
-        }
-
-        .clothing-recommendation ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        .clothing-recommendation li {
-            margin-bottom: 8px;
-            padding-left: 20px;
-            position: relative;
-        }
-
-        .clothing-recommendation li:before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: #4a90e2;
-        }
-
-        .recommendations-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: #fff;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #4a90e2;
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f8f9fa;
+        .recommendation-card p {
+            font-size: 1.1em;
+            color: var(--text);
         }
 
         .navigation-buttons {
-            margin-top: 20px;
             display: flex;
-            gap: 10px;
+            gap: 15px;
             justify-content: center;
+            margin-top: 40px;
         }
 
         button {
-            padding: 8px 16px;
-            background-color: #4a90e2;
+            padding: 12px 25px;
+            background: var(--primary);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: 500;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         button:hover {
-            background-color: #357abd;
+            background: #3182ce;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            header {
+                padding: 30px 20px;
+                margin-bottom: 40px;
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+
+            .recommendation-card {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Detailed Sun Safety Recommendations</h1>
-            <p>Comprehensive guide for sun protection based on UV index</p>
+            <h1>Sun Safety Recommendations</h1>
+            <p>Personalized recommendations based on UV index and skin type</p>
         </header>
 
-        <div class="uv-display">
-            <h2>Current UV Index</h2>
-            <div class="uv-number" id="currentUV">--</div>
-        </div>
-
-        <h2 class="section-title">Recommended Clothing</h2>
-        <div class="clothing-recommendation" id="clothingRecommendation">
-            <!-- Will be populated by JavaScript -->
-        </div>
-
-        <h2 class="section-title">Sun Protection Recommendations</h2>
-        <div class="card">
-            <table class="recommendations-table" id="recommendationsTable">
-                <thead>
-                    <tr>
-                        <th>Skin Type</th>
-                        <th>Risk Assessment</th>
-                        <th>Recommendation</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Will be populated by JavaScript -->
-                </tbody>
-            </table>
+        <div class="recommendations-list">
+            <div class="recommendation-card">
+                <h2>For Fair Skin</h2>
+                <p>Use SPF 50+ sunscreen, wear protective clothing, and seek shade during peak hours.</p>
+            </div>
+            <div class="recommendation-card">
+                <h2>For Medium Skin</h2>
+                <p>Use SPF 30+ sunscreen, wear a hat, and limit sun exposure between 10 AM and 4 PM.</p>
+            </div>
+            <div class="recommendation-card">
+                <h2>For Dark Skin</h2>
+                <p>Use SPF 15+ sunscreen, wear sunglasses, and stay hydrated while outdoors.</p>
+            </div>
         </div>
 
         <div class="navigation-buttons">
-            <button onclick="window.location.href='index.html'">Back to Home</button>
-            <button onclick="window.location.href='calculator.html'">Back to Calculator</button>
+            <button onclick="window.location.href='index.html'">Back to Calculator</button>
         </div>
     </div>
-
-    <script src="script.js"></script>
-    <link rel="stylesheet" href="shared-timer.css">
-    <script src="shared-timer.js"></script>
 </body>
 </html> 
