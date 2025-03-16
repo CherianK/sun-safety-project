@@ -129,24 +129,6 @@
             transform: translateY(-1px);
         }
 
-        .timer-display {
-            display: none;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 2px solid #e2e8f0;
-        }
-
-        .timer-display.show {
-            display: block;
-        }
-
-        .time-remaining {
-            font-size: 2em;
-            font-weight: 600;
-            color: var(--accent);
-            margin: 15px 0;
-        }
-
         .navigation-buttons {
             display: flex;
             gap: 15px;
@@ -186,40 +168,13 @@
             <div class="uv-number" id="currentUV"></div>
         </div>
 
-        <h2 class="section-title">Recommended Sunscreen Layers</h2>
+        <h2 class="section-title">Recommended Layers of Sunscreen</h2>
         <div class="card">
-            <table class="calculations-table" id="sunscreenTable">
-                <thead>
-                    <tr>
-                        <th>Skin Type</th>
-                        <th>Total Layers</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Will be populated by JavaScript -->
-                </tbody>
-            </table>
+            <p id="sunscreenRecommendation"></p>
         </div>
 
-        <div class="reminder-setup">
-            <h2>Set Sunscreen Reminder</h2>
-            <div class="input-group">
-                <input type="number" 
-                       id="intervalInput" 
-                       min="1" 
-                       max="120" 
-                       step="1" 
-                       placeholder="Minutes"
-                       value="30"/>
-                <button id="setReminderBtn">Set Reminder</button>
-            </div>
-            <p class="input-help">Choose any number of minutes between 1 and 120</p>
-            <div id="timerDisplay" class="timer-display">
-                <h3>Next Application Due In:</h3>
-                <div class="time-remaining" id="timeRemaining">--:--:--</div>
-                <p>Don't forget to reapply your sunscreen when the timer ends!</p>
-            </div>
+        <div class="input-group">
+            <button id="calculateBtn">Calculate Layers</button>
         </div>
 
         <div class="navigation-buttons">
@@ -229,7 +184,38 @@
 
     <script>
         // Generate a random UV index value between 0 and 15
-        document.getElementById('currentUV').innerText = (Math.random() * 15).toFixed(1);
+        const uvIndex = (Math.random() * 15).toFixed(1);
+        document.getElementById('currentUV').innerText = uvIndex;
+
+        // Function to calculate layers of sunscreen
+        function calculateLayers(uvIndex) {
+            const skinToneFactors = {
+                fair: 2,
+                medium: 1,
+                dark: 1
+            };
+
+            let recommendations = [];
+            for (const [skinTone, baseLayers] of Object.entries(skinToneFactors)) {
+                let uvAdjustment = 0;
+
+                if (uvIndex <= 5) {
+                    uvAdjustment = 0;
+                } else if (uvIndex <= 7) {
+                    uvAdjustment = 1;
+                } else if (uvIndex <= 10) {
+                    uvAdjustment = 2;
+                } else {
+                    uvAdjustment = 3;
+                }
+
+                const totalLayers = baseLayers + uvAdjustment;
+                recommendations.push(`${skinTone.charAt(0).toUpperCase() + skinTone.slice(1)} skin: ${totalLayers} layers`);
+            }
+            return recommendations.join('<br>');
+        }
+
+        document.getElementById('sunscreenRecommendation').innerHTML = calculateLayers(uvIndex);
     </script>
 </body>
 </html> 
