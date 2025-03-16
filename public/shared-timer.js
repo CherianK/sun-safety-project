@@ -27,6 +27,42 @@ function showAlert() {
     }, 5000);
 }
 
+let currentCountdownInterval = null;
+
+// Start global timer
+function startGlobalTimer(duration) {
+    // Clear any existing timer
+    if (currentCountdownInterval) {
+        clearInterval(currentCountdownInterval);
+        currentCountdownInterval = null;
+    }
+
+    const globalTimer = document.getElementById('globalTimer');
+    const globalTimeRemaining = document.getElementById('globalTimeRemaining');
+    let timeLeft = duration;
+
+    // Update immediately
+    globalTimeRemaining.textContent = formatTimeRemaining(timeLeft);
+    globalTimer.classList.add('show');
+
+    currentCountdownInterval = setInterval(() => {
+        timeLeft -= 1000;
+
+        if (timeLeft <= 0) {
+            clearInterval(currentCountdownInterval);
+            currentCountdownInterval = null;
+            globalTimeRemaining.textContent = '00:00:00';
+            showAlert();
+            globalTimer.classList.remove('show');
+            localStorage.removeItem('reminderData');
+        } else {
+            globalTimeRemaining.textContent = formatTimeRemaining(timeLeft);
+        }
+    }, 1000);
+
+    return currentCountdownInterval;
+}
+
 // Initialize global timer
 function initializeGlobalTimer() {
     // Create timer element if it doesn't exist
@@ -63,39 +99,11 @@ function initializeGlobalTimer() {
         if (now < reminderData.endTime) {
             // Resume existing timer
             startGlobalTimer(reminderData.endTime - now);
-            globalTimer.classList.add('show');
         } else {
             // Clear expired reminder
             localStorage.removeItem('reminderData');
         }
     }
-}
-
-// Start global timer
-function startGlobalTimer(duration) {
-    const globalTimer = document.getElementById('globalTimer');
-    const globalTimeRemaining = document.getElementById('globalTimeRemaining');
-    let timeLeft = duration;
-
-    // Update immediately
-    globalTimeRemaining.textContent = formatTimeRemaining(timeLeft);
-    globalTimer.classList.add('show');
-
-    const countdownInterval = setInterval(() => {
-        timeLeft -= 1000;
-
-        if (timeLeft <= 0) {
-            clearInterval(countdownInterval);
-            globalTimeRemaining.textContent = '00:00:00';
-            showAlert();
-            globalTimer.classList.remove('show');
-            localStorage.removeItem('reminderData');
-        } else {
-            globalTimeRemaining.textContent = formatTimeRemaining(timeLeft);
-        }
-    }, 1000);
-
-    return countdownInterval;
 }
 
 // Initialize timer on page load

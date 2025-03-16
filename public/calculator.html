@@ -3,156 +3,240 @@
 <head>
     <meta charset="UTF-8" />
     <title>Sun Safety Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f6f9fc, #eef2f7);
+            color: #2d3748;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 40px 20px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 60px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, #4299e1, #667eea);
+            color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.15);
+        }
+
+        header h1 {
+            font-size: 2.8em;
+            margin: 0 0 15px 0;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2em;
+            margin: 0;
+            opacity: 0.9;
         }
 
         .uv-display {
             text-align: center;
-            padding: 20px;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-
-        .uv-number {
-            font-size: 48px;
-            font-weight: bold;
-            color: #ff6b6b;
-        }
-
-        .calculations-table, .recommendations-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: #fff;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #4a90e2;
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
-
-        .section-title {
-            color: #333;
-            margin: 30px 0 15px;
-        }
-
-        .card {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-
-        .clothing-recommendation {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .clothing-recommendation h3 {
-            color: #4a90e2;
-            margin-top: 0;
-        }
-
-        .clothing-recommendation ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        .clothing-recommendation li {
-            margin-bottom: 8px;
-            padding-left: 20px;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            margin: -30px auto 40px;
+            max-width: 300px;
             position: relative;
         }
 
-        .clothing-recommendation li:before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: #4a90e2;
+        .uv-number {
+            font-size: 3.5em;
+            font-weight: 700;
+            color: #4299e1;
+            line-height: 1;
+            margin: 10px 0;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: #2d3748;
+            margin: 40px 0 20px;
+            font-weight: 600;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .calculations-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 20px 0;
+        }
+
+        .calculations-table th {
+            background: #4299e1;
+            color: white;
+            padding: 15px 20px;
+            font-weight: 500;
+            text-align: left;
+        }
+
+        .calculations-table th:first-child {
+            border-top-left-radius: 12px;
+        }
+
+        .calculations-table th:last-child {
+            border-top-right-radius: 12px;
+        }
+
+        .calculations-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .calculations-table tr:last-child td {
+            border-bottom: none;
         }
 
         .calculations-table td.total-layers {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #ff69b4;
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #4299e1;
         }
 
         .calculations-table td.minor-info {
             font-size: 0.9em;
-            color: #666;
+            color: #718096;
         }
 
         .reminder-setup {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            margin-top: 40px;
         }
 
         .reminder-setup h2 {
-            color: #4a90e2;
-            margin-top: 0;
+            color: #2d3748;
+            margin: 0 0 20px;
+            font-weight: 600;
         }
 
         .input-group {
             display: flex;
-            gap: 10px;
-            margin: 15px 0;
+            gap: 15px;
+            align-items: center;
+            margin: 20px 0;
         }
 
         input[type="number"] {
-            padding: 8px 12px;
-            border: 2px solid #ddd;
-            border-radius: 4px;
-            width: 100px;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1em;
+            width: 120px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
         }
 
         button {
-            padding: 8px 16px;
-            background-color: #4a90e2;
+            padding: 12px 25px;
+            background: #4299e1;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: 500;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         button:hover {
-            background-color: #357abd;
+            background: #3182ce;
+            transform: translateY(-1px);
+        }
+
+        .input-help {
+            font-size: 0.9em;
+            color: #718096;
+            margin: 10px 0;
+        }
+
+        .timer-display {
+            display: none;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .timer-display.show {
+            display: block;
+        }
+
+        .time-remaining {
+            font-size: 2em;
+            font-weight: 600;
+            color: #4299e1;
+            margin: 15px 0;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            header {
+                padding: 30px 20px;
+                margin-bottom: 40px;
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+
+            .card, .reminder-setup {
+                padding: 20px;
+            }
+
+            .input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            input[type="number"] {
+                width: 100%;
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -211,7 +295,6 @@
     </div>
 
     <script src="script.js"></script>
-    <script src="reminder.js"></script>
     <link rel="stylesheet" href="shared-timer.css">
     <script src="shared-timer.js"></script>
 </body>
